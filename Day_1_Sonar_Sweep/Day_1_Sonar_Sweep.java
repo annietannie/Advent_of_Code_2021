@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
-import java.nio.file.ReadOnlyFileSystemException;
 
 public class Day_1_Sonar_Sweep {
 
@@ -57,6 +55,13 @@ public class Day_1_Sonar_Sweep {
     
 
     public static void main(String[] args) {
+        // Test
+        ArrayList<Integer> test_report = importFile("test_data.txt");
+        int increasedTestPartOne = howMuchIncreased(test_report);
+        ArrayList<Integer> slidingWindow_test = createSlidingWindow(test_report);
+        int increasedTestPartTwo = howMuchIncreased(slidingWindow_test);
+        String test = (increasedTestPartOne == 7 && increasedTestPartTwo == 5) ? "Test succeeded" : "Test failed";
+        System.out.println(test);
 
         // Part one
         ArrayList<Integer> report = importFile("input.txt");
