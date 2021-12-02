@@ -1,6 +1,6 @@
-package Day_1_Sonar_Sweep;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -9,11 +9,9 @@ public class Day_1_Sonar_Sweep {
     public static ArrayList<Integer> importFile(String fileName) {
         ArrayList<Integer> report = new ArrayList<>();
         try {
-            File myFile = new File(fileName);
-            Scanner myReader = new Scanner(myFile);
+            Scanner myReader = new Scanner(new File(fileName));
             while(myReader.hasNextLine()) {
-                int data = Integer.parseInt(myReader.nextLine());
-                report.add(data);
+                report.add(Integer.parseInt(myReader.nextLine()));
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
@@ -23,31 +21,18 @@ public class Day_1_Sonar_Sweep {
     } 
 
     public static int howMuchIncreased(ArrayList<Integer> report) {
-        int increased = 0;
-        int number;
-        int secondNumber;
-        for (int i=1; i<report.size(); i++) {
-            number = report.get(i);
-            secondNumber = report.get(i-1);
-            if (number > secondNumber) {
-                increased++;
-            }
-        }
-        return increased;
+        return (int) IntStream
+            .range(1,report.size()) // for (int i=1; i<report.size(); i++)
+            .filter(i -> report.get(i) > report.get(i-1)) // if (report.get(i) > report.get(i-1))
+            .count(); // increased++;
     }
 
     public static ArrayList<Integer> createSlidingWindow(ArrayList<Integer> report) {
         ArrayList<Integer> slidingWindow = new ArrayList<>();
-        int firstNumber;
-        int secondNumber;
-        int thirdNumber;
         int sliding;
 
         for (int i=2; i<report.size(); i++) {
-            firstNumber = report.get(i);
-            secondNumber = report.get(i-1);
-            thirdNumber = report.get(i-2);
-            sliding = firstNumber + secondNumber + thirdNumber;
+            sliding = report.get(i) + report.get(i-1) + report.get(i-2);
             slidingWindow.add(sliding);
         }
         return slidingWindow;
