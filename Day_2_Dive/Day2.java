@@ -1,80 +1,35 @@
-package Day_2_Dive;
-
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 
-public class Day2 {
-    int horizontalPosition;
-    int depth;
-
-    public Day2() {
-        this.horizontalPosition = 0;
-        this.depth = 0;
-    }
-
-    public ArrayList<Integer> importFile(String fileName) {
-        ArrayList<Integer> coordinates = new ArrayList<Integer>();
-        try {
-            File myFile = new File(fileName);
-            Scanner myReader = new Scanner(myFile);
-            String[] data;
-            String command;
-            int index;
-            while(myReader.hasNextLine()) {
-                data = myReader.nextLine().split(" ");
-                command = data[0];
-                index = Integer.parseInt(data[1]);
-                //System.out.println(command + ", " + index);
-                if (command.equals("forward")) {
-                    this.forward(index);
-                } else if (command.equals("down")) {
-                    this.down(index);
-                } else if (command.equals("up")) {
-                    this.up(index);
-                }
-                //System.out.println(this.horizontalPosition + ", " + this.depth);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found.");
-            e.printStackTrace();
-        }
-        coordinates.add(this.horizontalPosition);
-        coordinates.add(this.depth);
-
-        return coordinates;
-    }
-
-    public void forward(int x) {
-        this.horizontalPosition = this.horizontalPosition + x;
-    }
-
-    public void down(int x) {
-        this.depth = this.depth + x;
-    }
-
-    public void up(int x) {
-        this.depth = this.depth - x;
-    } 
-
-    public int multiply(ArrayList<Integer> coordinates) {
-        int multiplicate = coordinates.get(0) * coordinates.get(1);
-        return multiplicate;
-    }
-
+class Day2 {
     public static void main(String args[]) {
-        Day2 testShip = new Day2();
-        ArrayList<Integer> testCoordinates = testShip.importFile("testinput.txt");
-        int testAnswer = testShip.multiply(testCoordinates);
-        System.out.println(testCoordinates);
-        System.out.println(testAnswer);
+        // Part 1
+        Submarine testShip = new Submarine();
+        testShip.importFile("testinput.txt");
+        ArrayList<Integer> testCoordinates = testShip.getCoordinates();
+        int testAnswer = testShip.multiply();
+        System.out.println("Coordinates test part 1: " + testCoordinates);
+        System.out.println("Answer test part 1: " + testAnswer);
 
-        Day2 ship = new Day2();
-        ArrayList<Integer> coordinates = ship.importFile("input.txt");
-        int answer = ship.multiply(coordinates);
-        System.out.println(coordinates);
-        System.out.println(answer);
+        Submarine ship = new Submarine();
+        ship.importFile("input.txt");
+        ArrayList<Integer> coordinates = ship.getCoordinates();
+        int answer = ship.multiply();
+        System.out.println("Coordinates part 1: " + coordinates);
+        System.out.println("Answer part 1: " + answer);
+
+        // Part 2
+        Submarine2 testShip2 = new Submarine2();
+        testShip2.importFile("testinput.txt");
+        ArrayList<Integer> testCoordinates2 = testShip2.getCoordinates();
+        int testAnswer2 = testShip2.multiply();
+        System.out.println("Coordinates test part 2: " + testCoordinates2);
+        System.out.println("Answer test part 2: " + testAnswer2);
+
+        Submarine2 Submarine = new Submarine2();
+        Submarine.importFile("input.txt");
+        ArrayList<Integer> coordinatesSub = Submarine.getCoordinates();
+        int answerSub = Submarine.multiply();
+        System.out.println("Coordinates part 2: " + coordinatesSub);
+        System.out.println("Answer part 2: " + answerSub);
     }
 }
