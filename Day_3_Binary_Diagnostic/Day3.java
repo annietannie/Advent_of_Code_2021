@@ -11,12 +11,6 @@ import java.util.stream.Collectors;
 import java.util.List;
 
 public class Day3 {
-    /* public static Object readFile(String fileName) throws IOException {
-        var report = Files
-                .lines(Paths.get(fileName))
-                .collect(Collectors.toList());
-        return report;
-    }; */
 
     public static ArrayList<String> importFile(String fileName) {
         ArrayList<String> report = new ArrayList<>();
@@ -54,36 +48,39 @@ public class Day3 {
     }
 
     public static ArrayList<ArrayList<Integer>> getGammaList(ArrayList<ArrayList<Integer>> gammaList, ArrayList<String> report) {
-        int dataLine;
-        int data;
+        char dataLine;
         int zeroValue;
         int oneValue;
         for (int i=0; i<report.size(); i++) {
             for (int j=0; j<report.get(i).length(); j++) {
                 zeroValue = gammaList.get(j).get(0);
                 oneValue = gammaList.get(j).get(1);
-                dataLine = report.get(i).charAt(j);
-                System.out.println(dataLine);
-                //dataLine = Integer.parseInt.report.get(i).charAt(j);
-                //data = (dataLine == 0) ? zeroValue++ : oneValue++;
-                //gammaList.get(j).set(0, dataLine);
+                dataLine = report.get(i).charAt(j));
+                if (dataLine == 0) {
+                    zeroValue++;
+                    gammaList.get(j).set(0, zeroValue);
+                } else {
+                    oneValue++;
+                    gammaList.get(j).set(1, oneValue);
+                }
             }
         }
         return gammaList;
     }
-/*
-    public static int getGammaValue(ArrayList<Integer> gammaList) {
-        int[] gamma;
-        gamma[0] = gammaList.get(0).get(0) > gammaList.get(0).get(1) ? 0 : 1;
-        gamma[1] = gammaList.get(1).get(0) > gammaList.get(1).get(1) ? 0 : 1;
-        gamma[2] = gammaList.get(2).get(0) > gammaList.get(2).get(1) ? 0 : 1;
-        gamma[3] = gammaList.get(3).get(0) > gammaList.get(3).get(1) ? 0 : 1;
-        gamma[4] = gammaList.get(4).get(0) > gammaList.get(4).get(1) ? 0 : 1;
-        int gammaValue = Integer.parseInt(Arrays.toString(gamma), 2);
+
+    public static int getGammaValue(List<ArrayList<Integer>> gammaList) {
+        ArrayList<Integer> gamma = new ArrayList<Integer>();
+        gamma.add(gammaList.get(0).get(0) > gammaList.get(0).get(1) ? 0 : 1);
+        gamma.add(gammaList.get(1).get(0) > gammaList.get(1).get(1) ? 0 : 1);
+        gamma.add(gammaList.get(2).get(0) > gammaList.get(2).get(1) ? 0 : 1);
+        gamma.add(gammaList.get(3).get(0) > gammaList.get(3).get(1) ? 0 : 1);
+        gamma.add(gammaList.get(4).get(0) > gammaList.get(4).get(1) ? 0 : 1);
+        String gammaVal = Arrays.toString(gamma);
+        int gammaValue = Integer.parseInt(gammaVal, 2);
         System.out.println("Gamma: " + gammaValue);
         return gammaValue;
     }
-
+/*
     public static int getBinMax(List<String> report) {
         return Integer.parseInt(report.size());
     }
@@ -103,7 +100,7 @@ public class Day3 {
         ArrayList<String> testReport = importFile("test_input.txt");
         ArrayList<ArrayList<Integer>> testGammaListTemp = constructGammaListTemp(testReport);
         ArrayList<ArrayList<Integer>> testGammaList = getGammaList(testGammaListTemp, testReport);
-        //System.out.println(Array.toString(testGammaListTemp));
+        System.out.println(Array.toString(testGammaListTemp));
         //int testPowerConsumption = getPowerConsumption(testReport);
         //System.out.println("Power consumption: " + testPowerConsumption);
     }
