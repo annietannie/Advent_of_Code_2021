@@ -49,31 +49,48 @@ public class Day3_2 {
 
     public static int[] createGammaAndEpsiolon(ArrayList<String> report, ArrayList<Integer> gammaList) {
         int numberOfNumbers = report.size();
-        ArrayList<Integer> gammaArray = new ArrayList<Integer>();
-        ArrayList<Integer> epsilonArray = new ArrayList<Integer>();
+        StringBuilder gammaBinStr = new StringBuilder();
+        StringBuilder epsilonBinStr = new StringBuilder();
         for (int i=0; i<gammaList.size(); i++) {
-            if (gammaList.get(i)/numberOfNumbers >= (1/2)) {
-                gammaArray.add(1);
-                epsilonArray.add(0);
+            if ((gammaList.get(i)*2) >= numberOfNumbers) {
+                gammaBinStr.append(1);
+                epsilonBinStr.append(0);
             } else {
-                gammaArray.add(0);
-                epsilonArray.add(1);
+                gammaBinStr.append(0);
+                epsilonBinStr.append(1);
             }
         }
-        String gammaBin = gammaArray.toString();
-        String epsilonBin = epsilonArray.toString();
-        System.out.println(gammaBin + " " + epsilonBin);
-        /* int gamma = Integer.parseInt(gammaBin, 2);
+        //String gammaBin = String.join("", gammaArray.toString());
+        String gammaBin = gammaBinStr.toString();
+        String epsilonBin = epsilonBinStr.toString();
+        int gamma = Integer.parseInt(gammaBin, 2);
         int epsilon = Integer.parseInt(epsilonBin, 2);
-        int[] gammaEpsilon = {gamma, epsilon}; */
-        return null;
+        int[] gammaEpsilon = {gamma, epsilon};
+        return gammaEpsilon;
+    }
+
+    public static int multiplyGammaAndEpsilon(int[] gammaEpsilon) {
+        return gammaEpsilon[0] * gammaEpsilon[1];
     }
 
     public static void main (String[] args) throws IOException  {
+        // Part 1 Test
         ArrayList<String> testReport = importFile("test_input.txt");
         ArrayList<Integer> testGammaListTemp = constructGammaList(testReport);
         ArrayList<Integer> testGammaList = countOnes(testReport, testGammaListTemp);
         int[] testGammaEpsilon = createGammaAndEpsiolon(testReport, testGammaList);
-        System.out.println(testGammaEpsilon);
+        System.out.println("Gamma: " + String.valueOf(testGammaEpsilon[0]));
+        int testAnswer = multiplyGammaAndEpsilon(testGammaEpsilon);
+        System.out.println(testAnswer);
+
+        // Part 1
+        ArrayList<String> Report = importFile("input.txt");
+        ArrayList<Integer> GammaListTemp = constructGammaList(Report);
+        ArrayList<Integer> GammaList = countOnes(Report, GammaListTemp);
+        int[] GammaEpsilon = createGammaAndEpsiolon(Report, GammaList);
+        System.out.println("Gamma: " + String.valueOf(GammaEpsilon[0]));
+        int Answer = multiplyGammaAndEpsilon(GammaEpsilon);
+        System.out.println(Answer);
+
     }
 }

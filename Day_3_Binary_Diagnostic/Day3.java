@@ -55,7 +55,7 @@ public class Day3 {
             for (int j=0; j<report.get(i).length(); j++) {
                 zeroValue = gammaList.get(j).get(0);
                 oneValue = gammaList.get(j).get(1);
-                dataLine = report.get(i).charAt(j));
+                dataLine = Character.getNumericValue(report.get(i).charAt(j));
                 if (dataLine == 0) {
                     zeroValue++;
                     gammaList.get(j).set(0, zeroValue);
