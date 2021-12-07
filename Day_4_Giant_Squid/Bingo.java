@@ -46,11 +46,10 @@ class Bingo {
         return checkVertical() || checkHorizontal();
     }
 
-    public boolean checkVertical() {
+    public boolean checkHorizontal() {
        List<Boolean> subList;
         for (int i=0; i<21; i=i+5) {
             subList = this.bingoBoardBool.subList(i, i+5);
-            System.out.println("Sublist: " + subList.toString());
             if (checkForGameOver(subList)) {
                 return true;
             }
@@ -58,15 +57,18 @@ class Bingo {
         return false;
     }
 
-    public boolean checkHorizontal() {
+    public boolean checkVertical() {
         List<Boolean> subList = new ArrayList<>();
         for (int i=0; i<5; i++) {
-            for (int j=0; j<20; j=j+5) {
+            for (int j=0; j<21; j=j+5) {
                 subList.add(this.bingoBoardBool.get(i+j));
+                
             }
+            //System.out.println("Sublist: " + subList.toString());
             if (checkForGameOver(subList)) {
                 return true;
             }
+            subList.clear();
         }
         return false;
     }

@@ -1,13 +1,3 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.stream.IntStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
-
-
 public class Day4 {
     public static void main (String[] args) {
         // Part 1 test
@@ -18,6 +8,9 @@ public class Day4 {
 
         // Part 2 test
         BingoBoard testAnswer2 = new BingoBoard("test_input.txt", 2);
+
+        // Part 2
+        BingoBoard Answer2 = new BingoBoard("input.txt", 2);
     }
 }
 

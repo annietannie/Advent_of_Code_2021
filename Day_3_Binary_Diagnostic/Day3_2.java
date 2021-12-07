@@ -65,43 +65,68 @@ public class Day3_2 {
         return gammaEpsilon[0] * gammaEpsilon[1];
     }
 
-    public static int[] createOxygenAndCO2(ArrayList<String> oldReport, String[] oneCounter) {
-        String dataPoint;
+    public static String createOxygen(ArrayList<String> oldReport) {
         ArrayList<String> selectionOxygen = new ArrayList<String>();
-        for (int i=0; i<oneCounter.length; i++) {
-            for (int j=0; j<oldReport.size(); j++) {
-                dataPoint = String.valueOf(oldReport.get(j).charAt(i));
-                if (oneCounter[i].equals(dataPoint)) {
-                    selectionOxygen.add(oldReport.get(j));
+        ArrayList<String> dataSubset = oldReport;
+        int index = 0;
+        while (dataSubset.size() != 1) {
+            int oneCounter = 0;
+            int zeroCounter = 0;
+            for (int i=0; i<dataSubset.size(); i++) {
+                int dataLine = Character.getNumericValue(dataSubset.get(i).charAt(index));
+                if (dataLine == 1) {
+                    oneCounter++;
+                } else {
+                    zeroCounter++;
                 }
             }
-            if (selectionOxygen.size() == 1) {
-                break;
+            char bit = '1';
+            if (oneCounter != zeroCounter) {
+                if (zeroCounter > oneCounter) { 
+                    bit = '0';
+                }
             }
-            System.out.println("Oxygen list: " + selectionOxygen.toString());
-            oldReport = selectionOxygen;
-            selectionOxygen.clear();
-        }
 
-        ArrayList<String> selectionCO2 = new ArrayList<String>();
-        for (int i=0; i<oneCounter.length; i++) {
-            for (int j=0; j<oldReport.size(); j++) {
-                dataPoint = String.valueOf(oldReport.get(j).charAt(i));
-                if (oneCounter[i].equals(dataPoint)) {
-                    selectionCO2.add(oldReport.get(j));
+            char bit2 = bit;
+            int index2 = index;
+            dataSubset = dataSubset.stream()
+                .filter(v -> v.charAt(index2) == bit2)
+                .collect(Collectors.toCollection(ArrayList::new));
+            index++;
+        }
+        return dataSubset.get(0);
+    }
+
+    public static String createCO2(ArrayList<String> oldReport) {
+        ArrayList<String> selectionOxygen = new ArrayList<String>();
+        ArrayList<String> dataSubset = oldReport;
+        int index = 0;
+        while (dataSubset.size() != 1) {
+            int oneCounter = 0;
+            int zeroCounter = 0;
+            for (int i=0; i<dataSubset.size(); i++) {
+                int dataLine = Character.getNumericValue(dataSubset.get(i).charAt(index));
+                if (dataLine == 1) {
+                    oneCounter++;
+                } else {
+                    zeroCounter++;
                 }
             }
-            if (selectionCO2.size() == 1) {
-                break;
+            char bit = '0';
+            if (oneCounter != zeroCounter) {
+                if (zeroCounter > oneCounter) { 
+                    bit = '1';
+                }
             }
-            oldReport = selectionCO2;
-            selectionCO2.clear();
+
+            char bit2 = bit;
+            int index2 = index;
+            dataSubset = dataSubset.stream()
+                .filter(v -> v.charAt(index2) == bit2)
+                .collect(Collectors.toCollection(ArrayList::new));
+            index++;
         }
-        int oxygen = Integer.parseInt(selectionOxygen.toString(), 2);
-        int CO2 = Integer.parseInt(selectionCO2.toString(), 2);
-        System.out.println("Oxygen: " + oxygen);
-        int[] oxygenCO2 = {oxygen, CO2};
-        return oxygenCO2;
+        return dataSubset.get(0);
     }
 
     public static void main (String[] args) throws IOException  {
@@ -124,7 +149,23 @@ public class Day3_2 {
         System.out.println(Answer);
 
         // Part 2 Test
-        int[] testOxygenCO2 = createOxygenAndCO2(testReport, testGammaEpsilon);
+        String testOxygen = createOxygen(testReport);
+        String testCO2 = createCO2(testReport);
+        System.out.println(testOxygen);
+        int testOxygenValue = getDecimal(testOxygen);
+        int testCO2Value = getDecimal(testCO2);
+        System.out.println(testOxygenValue);
+        System.out.println(testCO2Value);
         //System.out.println(String.valueOf(testOxygenCO2[0]));
+
+        // Part 2
+        String Oxygen = createOxygen(Report);
+        String CO2 = createCO2(Report);
+        System.out.println(Oxygen);
+        int OxygenValue = getDecimal(Oxygen);
+        int CO2Value = getDecimal(CO2);
+        System.out.println(OxygenValue);
+        System.out.println(CO2Value);
+        System.out.println(OxygenValue * CO2Value);
     }
 }
