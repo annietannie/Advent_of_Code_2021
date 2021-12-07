@@ -17,10 +17,17 @@ public class Day_1_short {
             .map(Integer::parseInt)
             .collect(Collectors.toList());
 
-        System.out.println(
+        System.out.println("Part one is: " +
             IntStream
             .range(1,report.size())
             .filter(i -> report.get(i) > report.get(i-1))
+            .count()
+        );
+
+        System.out.println("Part two is: " +
+            IntStream
+            .range(3,report.size())
+            .filter(i -> report.get(i) > report.get(i-3))
             .count()
         );
     }

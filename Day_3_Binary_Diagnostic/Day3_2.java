@@ -26,33 +26,26 @@ public class Day3_2 {
         return report;
     }
 
-    public static ArrayList<Integer> constructGammaList(ArrayList<String> report) {
-        ArrayList<Integer> gammaList = new ArrayList<Integer>();
-        for (int i=0; i<report.get(0).length(); i++) {
-            gammaList.add(0);
-        }
-        return gammaList;
-    }
-
-    public static ArrayList<Integer> countOnes(ArrayList<String> report, ArrayList<Integer> gammaList) {
+    public static int[] countOnes(ArrayList<String> report) {
         int dataLine;
+        int[] gammaList = new int[report.get(0).length()];
         for (int i=0; i<report.size(); i++) {
-            for (int j=0; j<gammaList.size(); j++) {
+            for (int j=0; j<gammaList.length; j++) {
                 dataLine = Character.getNumericValue(report.get(i).charAt(j));
                 if (dataLine == 1) {
-                    gammaList.set(j,gammaList.get(j)+1);
+                    gammaList[j] = gammaList[j]+1;
                 }
             }
         }
         return gammaList;
     }
 
-    public static int[] createGammaAndEpsiolon(ArrayList<String> report, ArrayList<Integer> gammaList) {
+    public static String[] createGammaAndEpsiolon(ArrayList<String> report, int[] gammaList) {
         int numberOfNumbers = report.size();
         StringBuilder gammaBinStr = new StringBuilder();
         StringBuilder epsilonBinStr = new StringBuilder();
-        for (int i=0; i<gammaList.size(); i++) {
-            if ((gammaList.get(i)*2) >= numberOfNumbers) {
+        for (int i=0; i<gammaList.length; i++) {
+            if ((gammaList[i]*2) >= numberOfNumbers) {
                 gammaBinStr.append(1);
                 epsilonBinStr.append(0);
             } else {
@@ -60,37 +53,78 @@ public class Day3_2 {
                 epsilonBinStr.append(1);
             }
         }
-        //String gammaBin = String.join("", gammaArray.toString());
-        String gammaBin = gammaBinStr.toString();
-        String epsilonBin = epsilonBinStr.toString();
-        int gamma = Integer.parseInt(gammaBin, 2);
-        int epsilon = Integer.parseInt(epsilonBin, 2);
-        int[] gammaEpsilon = {gamma, epsilon};
+        String[] gammaEpsilon = {gammaBinStr.toString(), epsilonBinStr.toString()};
         return gammaEpsilon;
+    }
+
+    public static int getDecimal(String binNumber) {
+        return Integer.parseInt(binNumber, 2);
     }
 
     public static int multiplyGammaAndEpsilon(int[] gammaEpsilon) {
         return gammaEpsilon[0] * gammaEpsilon[1];
     }
 
+    public static int[] createOxygenAndCO2(ArrayList<String> oldReport, String[] oneCounter) {
+        String dataPoint;
+        ArrayList<String> selectionOxygen = new ArrayList<String>();
+        for (int i=0; i<oneCounter.length; i++) {
+            for (int j=0; j<oldReport.size(); j++) {
+                dataPoint = String.valueOf(oldReport.get(j).charAt(i));
+                if (oneCounter[i].equals(dataPoint)) {
+                    selectionOxygen.add(oldReport.get(j));
+                }
+            }
+            if (selectionOxygen.size() == 1) {
+                break;
+            }
+            System.out.println("Oxygen list: " + selectionOxygen.toString());
+            oldReport = selectionOxygen;
+            selectionOxygen.clear();
+        }
+
+        ArrayList<String> selectionCO2 = new ArrayList<String>();
+        for (int i=0; i<oneCounter.length; i++) {
+            for (int j=0; j<oldReport.size(); j++) {
+                dataPoint = String.valueOf(oldReport.get(j).charAt(i));
+                if (oneCounter[i].equals(dataPoint)) {
+                    selectionCO2.add(oldReport.get(j));
+                }
+            }
+            if (selectionCO2.size() == 1) {
+                break;
+            }
+            oldReport = selectionCO2;
+            selectionCO2.clear();
+        }
+        int oxygen = Integer.parseInt(selectionOxygen.toString(), 2);
+        int CO2 = Integer.parseInt(selectionCO2.toString(), 2);
+        System.out.println("Oxygen: " + oxygen);
+        int[] oxygenCO2 = {oxygen, CO2};
+        return oxygenCO2;
+    }
+
     public static void main (String[] args) throws IOException  {
         // Part 1 Test
         ArrayList<String> testReport = importFile("test_input.txt");
-        ArrayList<Integer> testGammaListTemp = constructGammaList(testReport);
-        ArrayList<Integer> testGammaList = countOnes(testReport, testGammaListTemp);
-        int[] testGammaEpsilon = createGammaAndEpsiolon(testReport, testGammaList);
-        System.out.println("Gamma: " + String.valueOf(testGammaEpsilon[0]));
-        int testAnswer = multiplyGammaAndEpsilon(testGammaEpsilon);
-        System.out.println(testAnswer);
+        int[] testGammaList = countOnes(testReport);
+        String[] testGammaEpsilon = createGammaAndEpsiolon(testReport, testGammaList);
+        int[] testGammaEpsilonInt = {getDecimal(testGammaEpsilon[0]), getDecimal(testGammaEpsilon[1])};
+        System.out.println("Test gamma: " + String.valueOf(testGammaEpsilon[0]));
+        int testAnswer = multiplyGammaAndEpsilon(testGammaEpsilonInt);
+        System.out.println("Test power consumption is: " + testAnswer);
 
         // Part 1
         ArrayList<String> Report = importFile("input.txt");
-        ArrayList<Integer> GammaListTemp = constructGammaList(Report);
-        ArrayList<Integer> GammaList = countOnes(Report, GammaListTemp);
-        int[] GammaEpsilon = createGammaAndEpsiolon(Report, GammaList);
-        System.out.println("Gamma: " + String.valueOf(GammaEpsilon[0]));
-        int Answer = multiplyGammaAndEpsilon(GammaEpsilon);
+        int[] GammaList = countOnes(Report);
+        String[] GammaEpsilon = createGammaAndEpsiolon(Report, GammaList);
+        int[] GammaEpsilonInt = {getDecimal(GammaEpsilon[0]), getDecimal(GammaEpsilon[1])};
+        System.out.println("Gamma: " + String.valueOf(GammaEpsilonInt[0]));
+        int Answer = multiplyGammaAndEpsilon(GammaEpsilonInt);
         System.out.println(Answer);
 
+        // Part 2 Test
+        int[] testOxygenCO2 = createOxygenAndCO2(testReport, testGammaEpsilon);
+        //System.out.println(String.valueOf(testOxygenCO2[0]));
     }
 }
