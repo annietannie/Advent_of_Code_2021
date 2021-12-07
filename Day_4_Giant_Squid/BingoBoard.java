@@ -22,6 +22,15 @@ class BingoBoard {
         System.out.println("Score: " + this.score);
     }
 
+    public BingoBoard(String fileName, int part2) {
+        importFile(fileName);
+        createNumbersList();
+        //System.out.println(Arrays.toString(this.numbersList));
+        createBingoBoards();
+        playBingo2();
+        System.out.println("Score: " + this.score);
+    }
+
     public void importFile(String fileName) {
         this.report = new ArrayList<>();
         try {
@@ -71,6 +80,44 @@ class BingoBoard {
                 break;
             }
         }  
+    }
+
+    public void playBingo2() {
+        int roundNr = 1;
+        ArrayList<Integer> removeBoards = new ArrayList<>();
+        for (int num : this.numbersList) {
+            System.out.println("Round: " + roundNr + ", number: " + num);
+            roundNr++;
+            removeBoards.clear();
+            for (int i=0; i<this.bingoBoards.size(); i++) {
+                this.score = this.bingoBoards.get(i).playNumber(num);
+                if (this.score != 0) {
+                    removeBoards.add(0, i);
+                }
+            }
+            
+            for (int boardNumber : removeBoards) {
+                System.out.println("Throw away: " + boardNumber);
+                System.out.println(this.bingoBoards.size());
+                this.bingoBoards.remove(boardNumber);
+
+            }
+
+            // Display the info
+            for (Bingo board : this.bingoBoards) {
+                System.out.println(board.bingoBoardInt.toString());
+                System.out.println(board.bingoBoardBool.toString());
+            }
+
+            
+            if (this.bingoBoards.size() == 0) {
+                System.out.println("Sum: " + this.score);
+                System.out.println("Num: " + num);
+                this.score = this.score * num;
+                break;
+            }
+        }  
+
     }
 
 }

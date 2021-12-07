@@ -8,9 +8,11 @@ import java.util.Arrays;
 class Bingo {
     ArrayList<Integer> bingoBoardInt = new ArrayList<>();
     ArrayList<Boolean> bingoBoardBool = new ArrayList<>();
+    int score;
 
     public Bingo(List<String> bingoList) {
         String[] bingoLineStr;
+        this.score = 0;
         for (int i=0; i<bingoList.size(); i++) {
             bingoLineStr = bingoList.get(i).split("(?<=\\G.{3})");
             for (int j=0; j<bingoLineStr.length; j++) {
@@ -27,6 +29,7 @@ class Bingo {
         for (int i=0; i<this.bingoBoardInt.size(); i++) {
             if (bingoBoardInt.get(i) == number) {
                 bingoBoardBool.set(i, true);
+                System.out.println("Found one on position " + i);
             }
         }
         //System.out.println(this.bingoBoardInt.toString());
@@ -40,17 +43,15 @@ class Bingo {
     }
 
     public Boolean checkIfGameOver() {
-        if (checkVertical()){
-            return true;
-        }
-        return false;
+        return checkVertical() || checkHorizontal();
     }
 
     public boolean checkVertical() {
        List<Boolean> subList;
-        for (int i=0; i<20; i=i+5) {
+        for (int i=0; i<21; i=i+5) {
             subList = this.bingoBoardBool.subList(i, i+5);
-            if (checkForGameOver(subList) || checkHorizontal()) {
+            System.out.println("Sublist: " + subList.toString());
+            if (checkForGameOver(subList)) {
                 return true;
             }
         }
@@ -80,12 +81,12 @@ class Bingo {
     }
 
     public int calculateSum() {
-        int sum = 0;
         for (int i=0; i<this.bingoBoardBool.size(); i++) {
             if (!bingoBoardBool.get(i)) {
-                sum += bingoBoardInt.get(i);
+                this.score += bingoBoardInt.get(i);
             }
         }
-        return sum;
+        System.out.println("My score is: " + this.score);
+        return this.score;
     }
 }

@@ -15,6 +15,9 @@ public class Day4 {
 
         // Part 1
         BingoBoard Answer = new BingoBoard("input.txt");
+
+        // Part 2 test
+        BingoBoard testAnswer2 = new BingoBoard("test_input.txt", 2);
     }
 }
 
