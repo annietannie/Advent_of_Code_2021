@@ -42,9 +42,7 @@ public class Day6 {
     public void justKeepSwimming() {
         long day = 1;
         while (day < this.days+1) {
-            //System.out.print("After day " + day + ":");
             newDay();
-            //getFishies();
             day++;
         }
     }
