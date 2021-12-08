@@ -99,42 +99,66 @@ public class Day5 {
     public void fillHorizontals(List<int[]> vents) {
         int yCoord = vents.get(0)[1];
         int xCoordLength = Math.abs(vents.get(0)[0] - vents.get(1)[0]) + 1;
-        int[][] xCoords = new int[xCoordLength][2];
+        int[][] coords = new int[xCoordLength][2];
         int firstXCoord = vents.get(0)[0] < vents.get(1)[0] ? vents.get(0)[0] : vents.get(1)[0];
-        xCoords[0][0] = firstXCoord;
-        xCoords[0][1] = yCoord;
+        coords[0][0] = firstXCoord;
+        coords[0][1] = yCoord;
         for (int i=1; i<xCoordLength; i++) {
-            xCoords[i][0] = xCoords[i-1][0] + 1;
-            xCoords[i][1] = yCoord;
+            coords[i][0] = coords[i-1][0] + 1;
+            coords[i][1] = yCoord;
         }
         /* System.out.println("Horizontal vents line: ");
-        for (int[] vent : xCoords) {
+        for (int[] vent : coords) {
              System.out.println(Arrays.toString(vent));
         } */
-        fillVents(xCoords);
+        fillVents(coords);
         
     }
 
     public void fillVerticals(List<int[]> vents) {
         int xCoord = vents.get(0)[0];
         int yCoordLength = Math.abs(vents.get(0)[1] - vents.get(1)[1]) + 1;
-        int[][] yCoords = new int[yCoordLength][2];
+        int[][] coords = new int[yCoordLength][2];
         int firstYCoord = vents.get(0)[1] < vents.get(1)[1] ? vents.get(0)[1] : vents.get(1)[1];
-        yCoords[0][1] = firstYCoord;
-        yCoords[0][0] = xCoord;
+        coords[0][1] = firstYCoord;
+        coords[0][0] = xCoord;
         for (int i=1; i<yCoordLength; i++) {
-            yCoords[i][1] = yCoords[i-1][1] + 1;
-            yCoords[i][0] = xCoord;
+            coords[i][1] = coords[i-1][1] + 1;
+            coords[i][0] = xCoord;
         }
         /* System.out.println("Vertical vents line: ");
-        for (int[] vent : yCoords) {
+        for (int[] vent : coords) {
             System.out.println(Arrays.toString(vent));
         } */
-        fillVents(yCoords);
+        fillVents(coords);
     }
 
     public void fillDiagnoals(List<int[]> vents) {
-        
+        int length = Math.abs(vents.get(0)[1] - vents.get(1)[1]) + 1;
+        int[][] coords = new int[length][2];
+        String xDirection = vents.get(1)[0] > vents.get(0)[0] ? "Up" : "Down";
+        String yDirection = vents.get(1)[1] > vents.get(0)[1] ? "Up" : "Down";
+        coords[0][0] = vents.get(0)[0];
+        coords[0][1] = vents.get(0)[1];
+        for (int i=1; i<length; i++) {
+            if (xDirection.equals("Up")) {
+                coords[i][0] = coords[i-1][0] + 1;
+            } else {
+                coords[i][0] = coords[i-1][0] - 1; 
+            }
+
+            if (yDirection.equals("Up")) {
+                coords[i][1] = coords[i-1][1] + 1;
+            } else {
+                coords[i][1] = coords[i-1][1] - 1; 
+            }
+        }
+        /* System.out.println("Diagnoal vents line: ");
+        for (int[] vent : coords) {
+            System.out.println(Arrays.toString(vent));
+        } */
+        fillVents(coords);
+
     }
 
     public void fillVents(int[][] ventsLine) {
@@ -181,5 +205,11 @@ public class Day5 {
 
         // Part 1
         new Day5("input.txt", 1);
+
+        // Test part 2
+        new Day5("testinput.txt", 2);
+
+        // Part 2
+        new Day5("input.txt", 2);
     }
 }
