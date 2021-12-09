@@ -19,13 +19,11 @@ public class Day7 {
     public Day7(String fileName, int part) {
         this.part = part;
         importFile(fileName);
-        //System.out.println(Arrays.toString(crabs));
         if (this.part == 1) {
             findBestPosition();
         } else {
             findBestPosition2();
-        }
-        
+        } 
     }
     
     public void importFile(String fileName) {
@@ -55,8 +53,6 @@ public class Day7 {
         int lastDistance = createDistanceArray(this.minCrab);
         for (int i=this.minCrab+1; i<this.maxCrab; i++) {
             int distance = createDistanceArray(i);
-            //System.out.println("Last position and fuel consumption: " + (i-1) + ", " + lastDistance);
-            //System.out.println("Current position and fuel consumption: " + i + ", " + distance);
             if (distance > lastDistance) {
                 System.out.println("Optimal position is: " + (i-1) + " with fuel usage: " + lastDistance);
                 break;
@@ -77,8 +73,6 @@ public class Day7 {
         int lastDistance = createDistanceArray2(this.minCrab);
         for (int i=this.minCrab+1; i<this.maxCrab; i++) {
             int distance = createDistanceArray2(i);
-            //System.out.println("Last position and fuel consumption: " + (i-1) + ", " + lastDistance);
-            //System.out.println("Current position and fuel consumption: " + i + ", " + distance);
             if (distance > lastDistance) {
                 System.out.println("Optimal position is: " + (i-1) + " with fuel usage: " + lastDistance);
                 break;

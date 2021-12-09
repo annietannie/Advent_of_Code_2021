@@ -78,6 +78,29 @@ public class Day8 {
         System.out.println("The answer for part 2 is: " + this.answer);
     }
 
+    public void detectSegments(String[] uniqueSignalLine) {
+        createNumbers();    
+        initializeNumbers(uniqueSignalLine);    
+
+        // Find numbers and segments
+        findSegment0();
+        findNumber3();
+        findSegments1and2();
+        findSegment3();
+        findSegment4();
+        findNumber5();
+        findSegment5();
+
+        // Printing, only for test purposes
+        /* System.out.println("Segment 0 is: " + this.numberSegments[0]);
+        System.out.println("Segment 1 is: " + this.numberSegments[1]);
+        System.out.println("Segment 2 is: " + this.numberSegments[2]);
+        System.out.println("Segment 3 is: " + this.numberSegments[3]);
+        System.out.println("Segment 4 is: " + this.numberSegments[4]);
+        System.out.println("Segment 5 is: " + this.numberSegments[5]);
+        System.out.println("Segment 5 is: " + this.numberSegments[6]); */
+    }
+
     public int deductNumbers(String[] digitOutputLine) {
         String subAnswer = "";
         for (int i=0; i<digitOutputLine.length; i++) {
@@ -127,28 +150,7 @@ public class Day8 {
         return 6;
     }
 
-    public void detectSegments(String[] uniqueSignalLine) {
-        createNumbers();    
-        initializeNumbers(uniqueSignalLine);    
-
-        // Find numbers and segments
-        findSegment0();
-        findNumber3();
-        findSegments1and2();
-        findSegment3();
-        findSegment4();
-        findNumber5();
-        findSegment5();
-
-        // Printing, only for test purposes
-        /* System.out.println("Segment 0 is: " + this.numberSegments[0]);
-        System.out.println("Segment 1 is: " + this.numberSegments[1]);
-        System.out.println("Segment 2 is: " + this.numberSegments[2]);
-        System.out.println("Segment 3 is: " + this.numberSegments[3]);
-        System.out.println("Segment 4 is: " + this.numberSegments[4]);
-        System.out.println("Segment 5 is: " + this.numberSegments[5]);
-        System.out.println("Segment 5 is: " + this.numberSegments[6]); */
-    }
+    
 
     public void findSegment5() {
         for (char bit1 : this.numbers.get(1)) {
@@ -167,16 +169,7 @@ public class Day8 {
                 break;
             }
         }
-    }
-
-    public boolean checkIfTheseBitsContainSegment(char[] number, int segmentNr) {
-        for (char bit : number) {
-            if (bit == this.numberSegments[segmentNr]) {
-                return true;
-            }
-        }
-        return false;
-    }
+    }    
 
     public void findSegment4() {
         // only segment that is nog in 3, 4, 7;
@@ -238,6 +231,15 @@ public class Day8 {
             }
         }
         return (segmentCounter == count);
+    }
+
+    public boolean checkIfTheseBitsContainSegment(char[] number, int segmentNr) {
+        for (char bit : number) {
+            if (bit == this.numberSegments[segmentNr]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Boolean isThisBitin (char bit, char[] number) {
