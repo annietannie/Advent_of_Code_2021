@@ -11,6 +11,11 @@ import java.lang.reflect.Array;
 import java.util.stream.Collectors;
 import java.util.List;
 
+/* Verbetersuggestie:
+Hashmaps voor punten voor zowel 1 en 2
+Hashmap om tekens aan elkaar te koppelen
+*/
+
 public class Day10 {
     ArrayList<char[]> report = new ArrayList<>();
     ArrayList<Long> scoreListPart2 = new ArrayList<>();
@@ -45,10 +50,6 @@ public class Day10 {
     public void scanReport() {
         ArrayList<Character> chunks = new ArrayList<>();
         for (int i=0; i<report.size(); i++) {
-            if (chunks.size() > 0) {
-                scoreListPart2.add(setPointsForIncompletion(chunks));
-            }
-            chunks.clear();
             lineloop:
             for (char chunk : report.get(i)) {
                 if (chunk == '(' || chunk == '[' || chunk == '{' || chunk == '<') {
@@ -71,10 +72,12 @@ public class Day10 {
                         break lineloop;
                     }
                 }
-                
             }
+            if (chunks.size() > 0) {
+                scoreListPart2.add(setPointsForIncompletion(chunks));
+            }
+            chunks.clear();
         }
-        scoreListPart2.add(setPointsForIncompletion(chunks));  
     }
 
     public void calculateIncompletionPoints() {
