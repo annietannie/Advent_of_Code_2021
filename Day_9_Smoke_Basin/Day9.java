@@ -25,11 +25,10 @@ public class Day9 {
         importFile(fileName);
         //getReport();
         findLowestPoints();
+        System.out.println("Points for part 1: " + this.pointsPart1);
+
         findBassins();
         getPoints2();
-        //getShadowReport();
-
-        System.out.println("Points for part 1: " + this.pointsPart1);
     }
 
     public void importFile(String fileName) {
@@ -47,7 +46,6 @@ public class Day9 {
             System.out.println("File not found.");
             e.printStackTrace();
         }
-        ArrayList<ArrayList<Boolean>> shadowReport = createShadowReport();
     } 
 
     public void findBassins() {
@@ -212,7 +210,7 @@ public class Day9 {
         Collections.sort(bassins);
         Collections.reverse(bassins);
         int score = bassins.get(0) * bassins.get(1) * bassins.get(2);
-        System.out.println("Bassin sizes: " + bassins.toString());
+        //System.out.println("Bassin sizes: " + bassins.toString());
         System.out.println("Points for part 2: " + score);
     }
 
@@ -224,12 +222,6 @@ public class Day9 {
 
     public void getReport() {
         for (List<Integer> line : report) {
-            System.out.println(line.toString());
-        }   
-    }
-
-    public void getShadowReport() {
-        for (List<Boolean> line : shadowReport) {
             System.out.println(line.toString());
         }   
     }
