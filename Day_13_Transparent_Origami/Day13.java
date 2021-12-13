@@ -27,7 +27,6 @@ public class Day13 {
         getXandY();
         createDotsTemp();
         createDots();
-        //getDots();
         System.out.println();
         //folding1();
         folding2();
@@ -71,7 +70,6 @@ public class Day13 {
             foldLine[0] = foldLineDirection[2];
             foldLine[1] = foldLine1[1];
             this.foldInstructions.add(foldLine);
-            //System.out.println(Arrays.toString(foldLine));
         }
     }
 
@@ -85,9 +83,6 @@ public class Day13 {
             this.xDim = length2;
             this.yDim = length1;
         }
-
-        //System.out.println("X length: " + xDim);
-        //System.out.println("Y length: " + yDim);
     }
 
     public void createDotsTemp() {
@@ -120,25 +115,18 @@ public class Day13 {
     public void folding2() {
         for (String[] foldLine : this.foldInstructions) {
             int foldCoord = Integer.parseInt(foldLine[1]);
-            System.out.println(Arrays.toString(foldLine));
-            if (foldLine[0].equals("y")) {
-                foldingY(foldCoord);
-                System.out.println("Folded over y");
-            } else {
+            if (foldLine[0].equals("x")) {
                 foldingX(foldCoord);
-                System.out.println("Folded over x");
+            } else {
+                foldingY(foldCoord);
             }
         }
     }
 
     public void foldingX(int foldCoord) {
         for (int y=0; y<dots.size(); y++) {
-            //System.out.println("Y: " + y);
             for (int x=0; x<foldCoord; x++) {
-                //System.out.println("X left: " + x);
-                //System.out.println("X right: " + (dots.get(0).size()-1-x));
                 if (dots.get(y).get(dots.get(0).size()-1-x) == '#') {
-                    //System.out.println("found one!");
                     this.dots.get(y).set(x, '#');
                 }
             }
@@ -154,16 +142,13 @@ public class Day13 {
 
     public void foldingY(int foldCoord) {
         for (int y=0; y<foldCoord; y++) {
-            /* System.out.println("Y line above: " + y);
-            System.out.println("Y line under: " + (dots.size()-1-y)); */
             for (int x=0; x<dots.get(0).size(); x++) {
                 if (dots.get(dots.size()-1-y).get(x) == '#') {
                     this.dots.get(y).set(x, '#');
                 }
             }
         }
-
-        for (int i=0; i<foldCoord; i++) {
+        for (int i=0; i<=foldCoord; i++) {
             this.dots.remove(this.dots.size()-1);
         }
     }
