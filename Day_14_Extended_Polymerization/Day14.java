@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.reflect.Array;
-import java.math.BigInteger;
+import java.lang.Long;
 
 public class Day14 {
 
@@ -12,7 +12,7 @@ public class Day14 {
     ArrayList<String> polymer;
     HashMap<String, String> instructions;
     int loops;
-    HashMap<String, Integer> dimers;
+    HashMap<String, Long> dimers;
    
     public Day14 (String fileName, int loops) {
         this.loops = loops;
@@ -57,31 +57,32 @@ public class Day14 {
         for (int i=1; i<polymer.size(); i++) {
             String dimer = String.valueOf(polymer.get(i-1)) + String.valueOf(polymer.get(i));
             if (this.dimers.containsKey(dimer)) {
-                this.dimers.put(dimer, this.dimers.get(dimer) + 1);
+                this.dimers.put(dimer, this.dimers.get(dimer)+1L);
             } else {
-                this.dimers.put(dimer, 1);
+                this.dimers.put(dimer, 1L);
             }
         }
     }
 
-    public HashMap<String, Integer> makeTempDimers() {
-        HashMap<String, Integer> tempDimers = new HashMap<>();
+    public HashMap<String, Long> makeTempDimers() {
+        HashMap<String, Long> tempDimers = new HashMap<>();
         for (String dimer : instructions.keySet()) {
-            tempDimers.put(dimer, 0);
+            tempDimers.put(dimer, Long.valueOf(0));
         }
         return tempDimers;
     }
 
     public void polymeriseDimers() {
-        HashMap<String, Integer> tempDimers = makeTempDimers();
+        HashMap<String, Long> tempDimers = makeTempDimers();
 
         for (String dimer : dimers.keySet()) {
             String monomer = instructions.get(dimer);
             String[] dimerSplit = dimer.split("|");
             String dimer1 = dimerSplit[0] + monomer;
             String dimer2 = monomer + dimerSplit[1];
-            tempDimers.put(dimer1, tempDimers.get(dimer1) + dimers.get(dimer));
-            tempDimers.put(dimer2, tempDimers.get(dimer2) + dimers.get(dimer));
+            Long value = Long.valueOf(dimers.get(dimer));
+            tempDimers.put(dimer1, tempDimers.get(dimer1)+value);
+            tempDimers.put(dimer2, tempDimers.get(dimer2)+value);
         }
         dimers = tempDimers;
     }
@@ -92,37 +93,37 @@ public class Day14 {
         }
     }
 
-    public HashMap<String, BigInteger> setMonomerValues() {
-        HashMap<String, BigInteger> monomerValues = new HashMap<>();
+    public HashMap<String, Long> setMonomerValues() {
+        HashMap<String, Long> monomerValues = new HashMap<>();
         for (String monomer : instructions.values()) {
             if (!monomerValues.containsKey(monomer)) {
-                monomerValues.put(monomer, new BigInteger("0"));
+                monomerValues.put(monomer, 0L);
             }
         }
         return monomerValues;
     }
 
     public void getPoints() {
-        HashMap<String, BigInteger> monomerValues = setMonomerValues();
+        HashMap<String, Long> monomerValues = setMonomerValues();
         for (String dimer : dimers.keySet()) {
             String[] monomers = dimer.split("|");
             for (String monomer : monomers) {
-                monomerValues.put(monomer, monomerValues.get(monomer).add(BigInteger.valueOf(dimers.get(dimer))));
+                monomerValues.put(monomer, monomerValues.get(monomer)+dimers.get(dimer));
             }
         }
 
-        BigInteger max = new BigInteger("0");
-        BigInteger min = new BigInteger("0");
+        Long max = 0L;
+        Long min = 0L;
 
         for (String monomer : monomerValues.keySet()) {
-            BigInteger monomerValue = monomerValues.get(monomer).divide(BigInteger.valueOf(2));
-            if (polymer.get(0).contains(monomer) || polymer.get(polymer.size()-1).contains(monomer)) {
-                monomerValue = monomerValue.add(BigInteger.valueOf(1));
+            Long monomerValue = monomerValues.get(monomer) / 2L;
+            if (polymer.get(0) == monomer || polymer.get(polymer.size()-1) == monomer) {
+                monomerValue = monomerValue+1L;
             }
-            if (min.equals(BigInteger.valueOf(0)) || monomerValue.compareTo(min) < 0) {
+            if (min == 0L || monomerValue < min) {
                 min = monomerValue;
             } 
-            if (monomerValue.compareTo(max) > 0) {
+            if (monomerValue > max) {
                 max = monomerValue;
             }
             monomerValues.put(monomer, monomerValue);
@@ -130,7 +131,7 @@ public class Day14 {
 
         System.out.println(monomerValues);
         
-        BigInteger points = max.subtract(min);
+        Long points = max - min;
         System.out.println("Points: " + points);
     }
 
