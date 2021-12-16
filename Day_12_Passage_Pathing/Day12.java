@@ -15,6 +15,7 @@ import java.util.List;
 public class Day12 {
     ArrayList<Cave> caveList;
     ArrayList<String[]> report;
+    ArrayList<ArrayList<Cave>> paths;
 
     public Day12 (String fileName) {
         importFile(fileName);
@@ -61,18 +62,29 @@ public class Day12 {
     }
 
     public void findPaths() {
-        ArrayList<ArrayList<Cave>> paths = new ArrayList<>();
+        paths = new ArrayList<>();
         ArrayList<Cave> path1 = new ArrayList<>();
-        path1.add(getCave("Start"));
-        paths.add(path1);
-        setPaths(paths);
+        ArrayList<Cave> path = new ArrayList<>();
+        path.add(getCave("start"));
+        int pathsNumb = 0;
+        setPaths();
     }
 
-    public void setPaths(Cave cave) {
+    public void setPaths() {
+        while (!path.get(path.size()-1).name.contains("end")) {
+            Cave currentCave = path.get(path.size()-1);
+            for (Cave neighbour : currentCave.getNeighbours()) {
+                if (neighbour.name.equals("start")) {
+                    continue;
+                } else if (neighbour.name.equals("end")) {
 
-        do {
+                } else if (!neighbour.bigCave) {
+                    if ()
+                }
+            }
 
-        } while (!cave.caveName.contains("end"));
+        }
+        
     }
 
     public Cave getCave(String name) {

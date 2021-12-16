@@ -5,6 +5,7 @@ public class Cave {
     String caveName;
     ArrayList<Cave> neighbours;
     boolean bigCave;
+    boolean visited;
     
     public Cave(String name) {
         this.caveName = name;
