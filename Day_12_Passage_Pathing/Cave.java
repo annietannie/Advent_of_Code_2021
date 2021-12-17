@@ -5,7 +5,6 @@ public class Cave {
     String caveName;
     ArrayList<Cave> neighbours;
     boolean bigCave;
-    boolean visited;
     
     public Cave(String name) {
         this.caveName = name;
@@ -17,9 +16,21 @@ public class Cave {
         neighbours.add(neighbour);
     }
 
-    public void getNeighbours() {
+    public void printNeighbours() {
         for (Cave neighbour : neighbours) {
             System.out.println(neighbour.caveName);
         }
+    }
+
+    public ArrayList<Cave> getNeighbours() {
+        return neighbours;
+    }
+
+    public String getName() {
+        return caveName;
+    }
+
+    public Boolean thisCaveIsSmall() {
+        return !bigCave;
     }
 }

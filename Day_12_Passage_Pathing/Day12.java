@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 import java.util.List;
 
 public class Day12 {
-    ArrayList<Cave> caveList;
+    HashMap<String, Cave> caveList;
     ArrayList<String[]> report;
-    ArrayList<ArrayList<Cave>> paths;
+    int pathsNumb;
 
     public Day12 (String fileName) {
         importFile(fileName);
@@ -24,15 +24,15 @@ public class Day12 {
     }
     
     public void importFile(String fileName) {
-        this.caveList = new ArrayList<>();
+        this.caveList = new HashMap<>();
         this.report = new ArrayList<>();
         try {
             Scanner myReader = new Scanner(new File(fileName));
             while(myReader.hasNextLine()) {
                 String[] reportLine = myReader.nextLine().split("\\-");
                 for (String cave : reportLine) {
-                    if (!doesThisCaveExit(cave)) {
-                        caveList.add(new Cave(cave));
+                    if (!caveList.containsKey(cave)) {
+                        caveList.put(cave, new Cave(cave));
                     }
                 }
                 this.report.add(reportLine);
@@ -44,12 +44,7 @@ public class Day12 {
     }
 
     public boolean doesThisCaveExit(String name) {
-        for (Cave cave : caveList) {
-            if (cave.caveName.equals(name)) {
-                return true;
-            }
-        } 
-        return false;    
+        return caveList.containsKey(name);    
     }
 
     public void setNeighbours() {
@@ -59,37 +54,52 @@ public class Day12 {
             cave1.setNeighbour(cave2);
             cave2.setNeighbour(cave1);
         }
+        System.out.println("Neighbours");
+        for (Cave cave : caveList.values()) {
+            for (Cave neighbour : cave.getNeighbours()) {
+                System.out.println(cave.getName() + " has neighbour " + neighbour.getName());
+            }
+        }
     }
 
     public void findPaths() {
-        paths = new ArrayList<>();
-        ArrayList<Cave> path1 = new ArrayList<>();
         ArrayList<Cave> path = new ArrayList<>();
         path.add(getCave("start"));
-        int pathsNumb = 0;
-        setPaths();
+        pathsNumb = 0;
+        setPath(path);
+        System.out.println("\nNumber of paths: " + pathsNumb);
     }
 
-    public void setPaths() {
-        while (!path.get(path.size()-1).name.contains("end")) {
-            Cave currentCave = path.get(path.size()-1);
+    public void setPath(ArrayList<Cave> path) {
+        Cave currentCave = path.get(path.size()-1);
+        System.out.println("Current cave: " + currentCave.getName());
+        currentCave.printNeighbours();
+        if (currentCave.getName().equals("end")) {
+            pathsNumb++;
+            System.out.println();
+            printPath(path);
+        } else {
             for (Cave neighbour : currentCave.getNeighbours()) {
-                if (neighbour.name.equals("start")) {
+                if (neighbour.thisCaveIsSmall() && path.contains(neighbour)) {
                     continue;
-                } else if (neighbour.name.equals("end")) {
-
-                } else if (!neighbour.bigCave) {
-                    if ()
                 }
+                path.add(neighbour);
+                ArrayList<Cave> pathClone = new ArrayList<>();
+                for (Cave c : path) pathClone.add(c);
+                setPath(pathClone);
             }
-
         }
-        
+    }
+
+    public void printPath(ArrayList<Cave> path) {
+        for (Cave cave : path) {
+            System.out.print(cave.getName() + " ");
+        }
     }
 
     public Cave getCave(String name) {
-        for (Cave cave : caveList) {
-            if (cave.caveName.equals(name)) {
+        for (Cave cave : caveList.values()) {
+            if (cave.getName().equals(name)) {
                 return cave;
             }
         }
@@ -97,8 +107,8 @@ public class Day12 {
     }
 
     public void getCaveList() {
-        for (Cave cave : caveList) {
-            System.out.println(cave.caveName);
+        for (Cave cave : caveList.values()) {
+            System.out.println(cave.getName());
         }
     }
 
@@ -106,8 +116,8 @@ public class Day12 {
     public static void main (String[] args) {
         // Test part 1
         Day12 caves1 = new Day12("testinput.txt");
-        caves1.getCaveList();
-        caves1.caveList.get(1).getNeighbours();
+        //caves1.getCaveList();
+        //caves1.caveList.get(1).printNeighbours();
 
     }
 }
